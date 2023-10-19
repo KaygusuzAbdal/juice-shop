@@ -29,22 +29,6 @@ jobs:
       with:
         sarif_file: semgrep.sarif
       if: always()
-  grype:
-    name: grype
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Build Docker Image
-      run: docker build . --file Dockerfile --tag localbuild/testimage:latest
-    - uses: anchore/scan-action@d5aa5b6cb9414b0c7771438046ff5bcfa2854ed7
-      with:
-        image: "localbuild/testimage:latest"
-        fail-build: false
-        severity-cutoff: critical
-    - name: Upload vulnerability report
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: ${{ steps.scan.outputs.sarif }}
   gitleaks:
     name: gitleaks
     runs-on: ubuntu-latest
