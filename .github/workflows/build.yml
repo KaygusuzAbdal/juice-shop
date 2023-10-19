@@ -29,19 +29,6 @@ jobs:
       with:
         sarif_file: semgrep.sarif
       if: always()
-  gitleaks:
-    name: gitleaks
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}}
-          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: false
-          GITLEAKS_ENABLE_SUMMARY: true #hassas bilgileri gizli bir şekilde işlemek için kullanılır
-          GITLEAKS_REDACT: true
-        continue-on-error: true
   trivy:
     permissions:
       contents: read # for actions/checkout to fetch code
@@ -62,3 +49,16 @@ jobs:
           template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
+  gitleaks:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}}
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: false
+          GITLEAKS_ENABLE_SUMMARY: true #hassas bilgileri gizli bir şekilde işlemek için kullanılır
+          GITLEAKS_REDACT: true
+        continue-on-error: true
