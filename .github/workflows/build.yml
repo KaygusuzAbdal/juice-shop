@@ -22,7 +22,7 @@ jobs:
     - name: Semgrep
       #taramaları gerçekleştirip sarif dosyası olarak output ediyoruz
       #true => tarama yaptıktan sonra programı kıracak şekilde kritik zaafiyet bulsa da raporlamayı devam ettiriyoruz
-      run: semgrep -ci --config=auto --sarif --output=semgrep.sarif || true
+      run: semgrep ci --config=auto --sarif --output=semgrep.sarif || true
     - name: Upload
       #codeql action'ına sarif dosyasını upload etmek için kullandığımız plugin
       uses: github/codeql-action/upload-sarif@v2
